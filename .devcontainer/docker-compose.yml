@@ -11,6 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: 123
     volumes:
       - mariadb-data:/var/lib/mysql
+    networks:
+      - erpnext
 
   # Enable PostgreSQL only if you use it, see development/README.md for more information.
   # postgresql:
@@ -22,9 +24,13 @@ services:
 
   redis-cache:
     image: redis:alpine
+    networks:
+      - erpnext
 
   redis-queue:
     image: redis:alpine
+    networks:
+      - erpnext
 
   frappe:
     image: frappe/bench:latest
@@ -39,7 +45,22 @@ services:
     ports:
       - 8000-8005:8000-8005
       - 9000-9005:9000-9005
+    networks:
+      - erpnext
+      - nginx
 
 volumes:
   mariadb-data:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/op/volumes/erpnext'
   postgresql-data:
+
+
+networks:
+  erpnext:
+  nginx:
+    external: true
+    name: nginx_shared
