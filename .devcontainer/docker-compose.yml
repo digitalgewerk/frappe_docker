@@ -55,7 +55,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/home/op/volumes/erpnext'
+      device: '/home/op/volumes/erpnext_dev'
   postgresql-data:
 
 
